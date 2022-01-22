@@ -1,8 +1,15 @@
 #include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 #include <iostream> 
+#include <chrono>
+#include <algorithm>
+#include <iomanip>
+#include <sstream>
 
 using namespace cv;
 using namespace std;
+
+bool isGrey = false;
 
 int main()
 {
@@ -30,12 +37,25 @@ int main()
             break;
         }
 
+        if (isGrey){
+            cvtColor(frame, frame, CV_RGB2GRAY);
+        }
+
         imshow("Video", frame);
 
-        // Press 'q' to close vidoe
-        if(waitKey(10) == 'q') 
+        // Key commands
+
+        char key = waitKey(10);
+
+        if (key == 'q') 
         { 
             break; 
+        }
+        else if (key == 's'){
+            imwrite("vidDisplay.jpg", frame);
+        }
+        else if (key == 'g'){
+            isGrey = !isGrey; 
         }
     }
 
