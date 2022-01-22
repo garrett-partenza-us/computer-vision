@@ -11,8 +11,8 @@ int main( int argc, char** argv ) {
       return -1;
     }
   
-  cv::namedWindow( "imgDisplay Program", cv::WINDOW_AUTOSIZE );
-  cv::imshow( "Dummy Image", image );
+  cv::namedWindow( "Image Display", cv::WINDOW_AUTOSIZE );
+  cv::imshow( "Image", image );
   
   cv::waitKey(0);
   return 0;
