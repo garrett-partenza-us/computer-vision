@@ -1,5 +1,6 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "filter.h"
 #include <iostream> 
 #include <chrono>
 #include <algorithm>
@@ -10,6 +11,7 @@ using namespace cv;
 using namespace std;
 
 bool isGrey = false;
+bool isAltGrey = false;
 
 int main()
 {
@@ -40,6 +42,9 @@ int main()
         if (isGrey){
             cvtColor(frame, frame, CV_RGB2GRAY);
         }
+        else if (isAltGrey){
+            frame = altGrey(frame);
+        }
 
         imshow("Video", frame);
 
@@ -52,10 +57,13 @@ int main()
             break; 
         }
         else if (key == 's'){
-            imwrite("vidDisplay.jpg", frame);
+            imwrite("vidDisplay.png", frame);
         }
         else if (key == 'g'){
             isGrey = !isGrey; 
+        }
+        else if (key == 'h'){
+            isAltGrey = !isAltGrey;
         }
     }
 
