@@ -10,8 +10,11 @@
 using namespace cv;
 using namespace std;
 
+// OpenCV built in greyscale filtering flag 
 bool isGrey = false;
+// My custom greyscale filtering flag
 bool isAltGrey = false;
+bool isBlur = false;
 
 int main()
 {
@@ -22,9 +25,6 @@ int main()
         cout << "Video file not found\n";
         return -1;
     }
-
-    // Cap FPS
-    double fps = cap.get(CV_CAP_PROP_FPS); 
 
     namedWindow("Video Display",WINDOW_NORMAL); 
 
@@ -39,19 +39,24 @@ int main()
             break;
         }
 
+        // OpenCV greyscale filtering
         if (isGrey){
             cvtColor(frame, frame, CV_RGB2GRAY);
         }
-        else if (isAltGrey){
+        // My custom greyscale filtering
+        if (isAltGrey){
             frame = altGrey(frame);
         }
+        if (isBlur){
+            frame = blurImg(frame);
+        }
 
+
+        // Display frame
         imshow("Video", frame);
 
         // Key commands
-
         char key = waitKey(10);
-
         if (key == 'q') 
         { 
             break; 
@@ -64,6 +69,9 @@ int main()
         }
         else if (key == 'h'){
             isAltGrey = !isAltGrey;
+        }
+        else if (key == 'b'){
+            isBlur = !isBlur;
         }
     }
 
