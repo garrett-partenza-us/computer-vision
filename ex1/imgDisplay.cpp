@@ -19,7 +19,7 @@ int main( int argc, char** argv ) {
       return -1;
     }
   cv::namedWindow( "Image Display", cv::WINDOW_AUTOSIZE );
-  cv::imshow( "Image", blurImg(image));
+  cv::imshow( "Image", ySobel(image));
   
   cv::waitKey(0);
   return 0;

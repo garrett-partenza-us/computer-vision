@@ -15,6 +15,9 @@ bool isGrey = false;
 // My custom greyscale filtering flag
 bool isAltGrey = false;
 bool isBlur = false;
+bool isXSobel = false;
+bool isYSobel = false;
+
 
 int main()
 {
@@ -50,6 +53,12 @@ int main()
         if (isBlur){
             frame = blurImg(frame);
         }
+        if (isXSobel){
+            frame = xSobel(frame);
+        }
+        if (isYSobel){
+            frame = ySobel(frame);
+        }
 
 
         // Display frame
@@ -70,8 +79,14 @@ int main()
         else if (key == 'h'){
             isAltGrey = !isAltGrey;
         }
-        else if (key == 'b'){
+        else if (key == 'b' && (!isGrey && !isAltGrey)){
             isBlur = !isBlur;
+        }
+        else if (key == 'x' && (!isGrey && !isAltGrey)){
+            isXSobel = !isXSobel;
+        }
+        else if (key == 'y' && (!isGrey && !isAltGrey)){
+            isYSobel = !isYSobel;
         }
     }
 
