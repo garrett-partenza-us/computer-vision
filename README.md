@@ -1,3 +1,6 @@
+To do:
+1. Understand (x,y) vs (y,x) for Point vs Vec in blur function.
+
 Installation steps
 1. Install XQuartz on local machine (OS X)
 2. SSH into discovery with -X flag
