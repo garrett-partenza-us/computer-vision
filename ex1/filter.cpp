@@ -338,4 +338,70 @@ cv::Mat xyMag(cv::Mat image) {
 
 }
 
+// Quantize an image based on n-number of levels
+cv::Mat quantScale(cv::Mat image, int levels) {
 
+  cv::Mat quantImg(image.rows, image.cols, CV_8UC3);
+
+  float bucket_size = 255/levels;
+
+  for(int i=0; i<image.rows; i++){
+      for(int j=0; j<image.cols; j++){
+          cv::Vec3b intensity = image.at<cv::Vec3b>(i, j);
+          float blue = intensity.val[0];
+          blue = ((int)(blue / bucket_size))*bucket_size;
+          float green = intensity.val[1];
+          green = ((int)(green / bucket_size))*bucket_size;
+          float red = intensity.val[2];
+          red = ((int)(red / bucket_size))*bucket_size;
+          cv::Vec3b color;
+          color[2] = red;
+          color[1] = green;
+          color[0] = blue;
+          quantImg.at<Vec3b>(i,j) = color;
+      }
+  }
+
+  return quantImg;
+}
+
+cv::Mat cartoon(cv::Mat image, int levels, int threshold) {
+
+  cv::Mat magnitude = xyMag(image);
+  cv::Mat quantblur = quantScale(image, levels);
+
+  for(int i=0; i<quantblur.rows; i++){
+      for(int j=0; j<quantblur.cols; j++){
+
+          cv::Vec3b mag = magnitude.at<cv::Vec3b>(i, j);
+          cv::Vec3b qb = quantblur.at<cv::Vec3b>(i, j);
+
+          float mag_blue = mag.val[0];
+          float mag_green = mag.val[1];
+          float mag_red = mag.val[2];
+
+          float qb_blue = qb.val[0];
+          float qb_green = qb.val[1];
+          float qb_red = qb.val[2];
+
+          if (mag_blue > threshold){
+            qb_blue = 0;
+          }
+          if (mag_green > threshold){
+            qb_green = 0;
+          }
+          if (mag_red > threshold){
+            qb_red = 0;
+          }
+
+          cv::Vec3b color;
+          color[2] = qb_red;
+          color[1] = qb_green;
+          color[0] = qb_blue;
+          quantblur.at<Vec3b>(i,j) = color;
+      }
+  }
+
+  return quantblur;
+
+}

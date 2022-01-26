@@ -18,6 +18,7 @@ bool isBlur = false;
 bool isXSobel = false;
 bool isYSobel = false;
 bool isMag = false;
+bool isQuant = false;
 
 
 int main()
@@ -63,6 +64,9 @@ int main()
         if (isMag){
             frame = xyMag(frame);
         }
+        if (isQuant){
+            frame = quantScale(frame);
+        }
 
 
         // Display frame
@@ -94,6 +98,9 @@ int main()
         }
         else if (key == 'm' && (!isGrey && !isAltGrey)){
             isMag = !isMag;
+        }
+        else if (key == 'l' && (!isGrey && !isAltGrey)){
+            isQuant = !isQuant;
         }
     }
 
