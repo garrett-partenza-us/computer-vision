@@ -19,7 +19,7 @@ int main( int argc, char** argv ) {
       return -1;
     }
   cv::namedWindow( "Image Display", cv::WINDOW_AUTOSIZE );
-  cv::imshow( "Image", ySobel(image));
+  cv::imshow( "Image", xyMag(image));
   
   cv::waitKey(0);
   return 0;

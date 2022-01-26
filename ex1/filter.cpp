@@ -6,7 +6,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/types.hpp>
 #include <opencv2/core.hpp>
-
+#include <math.h>
 
 
 using namespace cv;
@@ -210,6 +210,127 @@ cv::Mat ySobel(cv::Mat image) {
           color[1] = green_val;
           color[2] = blue_val;
           blurimg.at<Vec3b>(i-2,j-2) = color;
+      }
+  }
+
+  return blurimg;
+
+}
+
+// XY Magnitude Filter
+cv::Mat xyMag(cv::Mat image) {
+
+
+  cv::Mat xkern = (cv::Mat_<char>(3, 3) << -1, 0, 1, -1, 0, 1, -1, 0, 1);
+  cv::Mat ykern = (cv::Mat_<char>(3, 3) << -1, -1, -1, 0, 0, 0, 1, 1, 1);
+  
+  cv::Mat blurimg = cv::Mat(image.rows, image.cols, 16);
+  xkern.convertTo(xkern, 19);
+  ykern.convertTo(ykern, 19);
+  image.convertTo(image, 16);
+
+  int border = 2;
+  cv::Mat bigimg;
+  cv::copyMakeBorder(image, bigimg, border, border, border, border, BORDER_REPLICATE);
+
+  for(int i=2; i<image.rows-2; i++){
+      for(int j=2; j<image.cols-2; j++){
+          // Get pixels
+          cv::Mat pixels = image(cv::Range(i-1,i+2), cv::Range(j-1,j+2)).clone();
+
+          // X sobel
+          cv::Mat xchannels[3];
+          cv::split(pixels, xchannels);
+
+          cv::Mat xred;
+          cv::Mat xgreen;
+          cv::Mat xblue;
+          xchannels[0].convertTo(xred, xkern.type());
+          xchannels[1].convertTo(xgreen, xkern.type());
+          xchannels[2].convertTo(xblue, xkern.type());
+
+          xred = xkern.mul(xred);
+          xgreen = xkern.mul(xgreen);
+          xblue = xkern.mul(xblue);
+
+          double xred_val = cv::sum(xred)[0] / 3;
+          double xgreen_val = cv::sum(xgreen)[0] / 3;
+          double xblue_val = cv::sum(xblue)[0] / 3;
+
+          if (xred_val < 0) {
+            xred_val = 0;
+          }
+          else if (xred_val > 255) {
+            xred_val = 255;
+          }
+          if (xgreen_val < 0) {
+            xgreen_val = 0;
+          }
+          else if (xgreen_val > 255) {
+            xgreen_val = 255;
+          }
+          if (xblue_val < 0) {
+            xblue_val = 0;
+          }
+          else if (xblue_val > 255) {
+            xblue_val = 255;
+          }
+
+          cv::Vec3b xcolor;
+          xcolor[0] = xred_val;
+          xcolor[1] = xgreen_val;
+          xcolor[2] = xblue_val;
+
+
+          // Y sobel
+          cv::Mat ychannels[3];
+          cv::split(pixels, ychannels);
+
+          cv::Mat yred;
+          cv::Mat ygreen;
+          cv::Mat yblue;
+          ychannels[0].convertTo(yred, ykern.type());
+          ychannels[1].convertTo(ygreen, ykern.type());
+          ychannels[2].convertTo(yblue, ykern.type());
+
+          yred = ykern.mul(yred);
+          ygreen = ykern.mul(ygreen);
+          yblue = ykern.mul(yblue);
+
+          double yred_val = cv::sum(yred)[0] / 3;
+          double ygreen_val = cv::sum(ygreen)[0] / 3;
+          double yblue_val = cv::sum(yblue)[0] / 3;
+
+          if (yred_val < 0) {
+            yred_val = 0;
+          }
+          else if (yred_val > 255) {
+            yred_val = 255;
+          }
+          if (ygreen_val < 0) {
+            ygreen_val = 0;
+          }
+          else if (ygreen_val > 255) {
+            ygreen_val = 255;
+          }
+          if (yblue_val < 0) {
+            yblue_val = 0;
+          }
+          else if (yblue_val > 255) {
+            yblue_val = 255;
+          }
+
+          cv::Vec3b ycolor;
+          ycolor[0] = yred_val;
+          ycolor[1] = ygreen_val;
+          ycolor[2] = yblue_val;
+
+          cv::Vec3b mcolor;
+          mcolor[0] = sqrt(xred_val * xred_val + yred_val * yred_val);
+          mcolor[1] = sqrt(xgreen_val * xgreen_val + ygreen_val * ygreen_val);
+          mcolor[2] = sqrt(xblue_val * xblue_val + yblue_val * yblue_val);
+          blurimg.at<Vec3b>(i-2,j-2) = mcolor;
+
       }
   }
 

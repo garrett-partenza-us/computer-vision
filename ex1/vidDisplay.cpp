@@ -17,6 +17,7 @@ bool isAltGrey = false;
 bool isBlur = false;
 bool isXSobel = false;
 bool isYSobel = false;
+bool isMag = false;
 
 
 int main()
@@ -59,6 +60,9 @@ int main()
         if (isYSobel){
             frame = ySobel(frame);
         }
+        if (isMag){
+            frame = xyMag(frame);
+        }
 
 
         // Display frame
@@ -87,6 +91,9 @@ int main()
         }
         else if (key == 'y' && (!isGrey && !isAltGrey)){
             isYSobel = !isYSobel;
+        }
+        else if (key == 'm' && (!isGrey && !isAltGrey)){
+            isMag = !isMag;
         }
     }
 
