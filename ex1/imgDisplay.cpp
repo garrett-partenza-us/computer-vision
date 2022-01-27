@@ -18,10 +18,30 @@ int main( int argc, char** argv ) {
       std::cout <<  "Image does not exist" << std::endl ;
       return -1;
     }
+
+  // cv::Mat greyimg(image.rows, image.cols, CV_8UC1);
+  // greyscale(image, greyimg);
+  // cv::Mat blurimg = cv::Mat(image.rows, image.cols, image.type());
+  // blur5x5(image, blurimg);
+  // cv::Mat xSobel = cv::Mat(image.rows, image.cols, CV_8UC3);
+  // sobelX3x3(image, xSobel);
+  // cv::Mat ySobel = cv::Mat(image.rows, image.cols, CV_8UC3);
+  // sobelY3x3(image, ySobel);
+  // cv::Mat magImg = cv::Mat(image.rows, image.cols, CV_8UC3);
+  // magnitude(image, magImg);
+  // cv::Mat blurQuantImg = cv::Mat(image.rows, image.cols, CV_8UC3);
+  // int levels = 10;
+  // blurQuantize( image, blurQuantImg, levels );
+  int levels = 10;
+  int threshold = 20;
+  cv::Mat cartoonImg = cv::Mat(image.rows, image.cols, CV_8UC3);
+  cartoon( image, cartoonImg, levels, threshold );
+
+
   cv::namedWindow( "Image Display", cv::WINDOW_AUTOSIZE );
   int l = 10;
   int t = 20;
-  cv::imshow( "Image", cartoon(image, l, t));
+  cv::imshow( "Image", cartoonImg);
   
   cv::waitKey(0);
   return 0;

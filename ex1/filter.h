@@ -1,11 +1,11 @@
 #include "opencv2/imgproc/imgproc.hpp"
-cv::Mat altGrey(cv::Mat image);
-cv::Mat blurImg(cv::Mat image);
-cv::Mat xSobel(cv::Mat image);
-cv::Mat ySobel(cv::Mat image);
-cv::Mat xyMag(cv::Mat image);
-cv::Mat quantScale(cv::Mat image, int levels);
-cv::Mat cartoon(cv::Mat image, int levels, int threshold);
+int greyscale( cv::Mat &src, cv::Mat &dst );
+int blur5x5( cv::Mat &src, cv::Mat &dst );
+int sobelX3x3( cv::Mat &src, cv::Mat &dst );
+int sobelY3x3( cv::Mat &src, cv::Mat &dst );
+int magnitude( cv::Mat &src, cv::Mat &dst );
+int blurQuantize( cv::Mat &src, cv::Mat &dst, int levels );
+int cartoon( cv::Mat &src, cv::Mat&dst, int levels, int magThreshold );
 
 
 
