@@ -52,7 +52,7 @@ int greyscale( cv::Mat &src, cv::Mat &dst ) {
           float blue = intensity.val[0];
           float green = intensity.val[1];
           float red = intensity.val[2];
-          float ntsc = 0.21 * red + 0.72 * green + 0.07 * blue;
+          float ntsc = (red+green+blue)/3;
           dst.at<char>(i,j) = ntsc;
       }
   }
