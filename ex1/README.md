@@ -12,6 +12,9 @@ For my project extention, I added the functionality for a user to increase and d
 ### Reflection
 Aside from having to learn C++ from zero prior knowledge, the biggest lesson I learned during the project was how important data types are in accessing the cv::Mat class. In other words, whether an image is char, short, float, double, or if the image has one, two, three, or four channels effects how you should access the pixels. If you try to access a three channel char image with a Vec3f object, it is going to cut your image by a quarter and warp your output. I struggled with this fact for a couple hours before I understood how important data types are in OpenCV C++.
 
+### Environment 
+This project was developed on the Northeastern Discovery Cluster using OpenCV/3.4.3-contrib and C++11.
+
 ### Example Images
 ##### Original
 ![](https://github.com/garrett-partenza-us/computer-vision/blob/main/ex1/photos/Original.png)
