@@ -13,7 +13,7 @@ For my project extention, I added the functionality for a user to increase and d
 Aside from having to learn C++ from zero prior knowledge, the biggest lesson I learned during the project was how important data types are in accessing the cv::Mat class. In other words, whether an image is char, short, float, double, or if the image has one, two, three, or four channels effects how you should access the pixels. If you try to access a three channel char image with a Vec3f object, it is going to cut your image by a quarter and warp your output. I struggled with this fact for a couple hours before I understood how important data types are in OpenCV C++.
 
 ### Environment 
-This project was developed on the Northeastern Discovery Cluster using OpenCV/3.4.3-contrib and C++11.
+This project was developed on the Northeastern Discovery Cluster using OpenCV/3.4.3-contrib and C++11. Code was run on a linux operating system using the command \"g++ vidDisplay.cpp filter.cpp -o vidDisplay -std=c++11 \`pkg-config --cflags --libs opencv\`.\". All keystrokes follow that of the project guidelines, with the additon of +/- keystrokes for my contrast extension. All code in this project is working and runs as expected, so if you encounter any errors please reach out.
 
 ### Example Images
 ##### Original
