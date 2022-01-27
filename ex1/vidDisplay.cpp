@@ -10,16 +10,14 @@
 using namespace cv;
 using namespace std;
 
-// OpenCV built in greyscale filtering flag 
 bool isGrey = false;
-// My custom greyscale filtering flag
 bool isAltGrey = false;
 bool isBlur = false;
 bool isXSobel = false;
 bool isYSobel = false;
 bool isMag = false;
 bool isQuant = false;
-
+bool isCartoon = false;
 
 int main()
 {
@@ -44,28 +42,46 @@ int main()
             break;
         }
 
-        // OpenCV greyscale filtering
         if (isGrey){
             cvtColor(frame, frame, CV_RGB2GRAY);
         }
-        // My custom greyscale filtering
         if (isAltGrey){
-            frame = altGrey(frame);
+            cv::Mat greyimg(frame.rows, frame.cols, CV_8UC1);
+            greyscale(frame, greyimg);
+            frame = greyimg;
         }
         if (isBlur){
-            frame = blurImg(frame);
+            cv::Mat blurimg = cv::Mat(frame.rows, frame.cols, CV_8UC3);
+            blur5x5(frame, blurimg);
+            frame = blurimg;
         }
         if (isXSobel){
-            frame = xSobel(frame);
+            cv::Mat xSobel = cv::Mat(frame.rows, frame.cols, CV_8UC3);
+            sobelX3x3(frame, xSobel);
+            frame = xSobel;
         }
         if (isYSobel){
-            frame = ySobel(frame);
+            cv::Mat ySobel = cv::Mat(frame.rows, frame.cols, CV_8UC3);
+            sobelY3x3(frame, ySobel);
+            frame = ySobel;
         }
         if (isMag){
-            frame = xyMag(frame);
+            cv::Mat magImg = cv::Mat(frame.rows, frame.cols, CV_8UC3);
+            magnitude(frame, magImg);
+            frame = magImg;
         }
         if (isQuant){
-            frame = quantScale(frame);
+            cv::Mat blurQuantImg = cv::Mat(frame.rows, frame.cols, CV_8UC3);
+            int levels = 10;
+            blurQuantize(frame, blurQuantImg, levels);
+            frame = blurQuantImg;
+        }
+        if (isCartoon){
+            int levels = 10;
+            int threshold = 20;
+            cv::Mat cartoonImg = cv::Mat(frame.rows, frame.cols, CV_8UC3);
+            cartoon(frame, cartoonImg, levels, threshold);
+            frame = cartoonImg;
         }
 
 
@@ -101,6 +117,9 @@ int main()
         }
         else if (key == 'l' && (!isGrey && !isAltGrey)){
             isQuant = !isQuant;
+        }
+        else if (key == 'c' && (!isGrey && !isAltGrey)){
+            isCartoon = !isCartoon;
         }
     }
 
