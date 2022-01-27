@@ -16,7 +16,7 @@ Aside from having to learn C++ from zero prior knowledge, the biggest lesson I l
 This project was developed on the Northeastern Discovery Cluster using OpenCV/3.4.3-contrib and C++11. Code was compiled and executed on a linux operating system using the commands...
 
 ```
-g++ vidDisplay.cpp filter.cpp -o vidDisplay -std=c++11 \`pkg-config --cflags --libs opencv\`. 
+g++ vidDisplay.cpp filter.cpp -o vidDisplay -std=c++11 `pkg-config --cflags --libs opencv`. 
 ./vidDisplay
 ```
 
