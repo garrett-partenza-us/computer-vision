@@ -6,6 +6,7 @@ int sobelY3x3( cv::Mat &src, cv::Mat &dst );
 int magnitude( cv::Mat &src, cv::Mat &dst );
 int blurQuantize( cv::Mat &src, cv::Mat &dst, int levels );
 int cartoon( cv::Mat &src, cv::Mat&dst, int levels, int magThreshold );
+int contrast( cv::Mat &src, cv::Mat &dst, double constant );
 
 
 

@@ -18,6 +18,8 @@ bool isYSobel = false;
 bool isMag = false;
 bool isQuant = false;
 bool isCartoon = false;
+bool isContrast = false;
+double contrastCoef = 1;
 
 int main()
 {
@@ -83,6 +85,11 @@ int main()
             cartoon(frame, cartoonImg, levels, threshold);
             frame = cartoonImg;
         }
+        if (isContrast){
+            cv::Mat contrastImg = cv::Mat(frame.rows, frame.cols, CV_8UC3);
+            contrast(frame, contrastImg, contrastCoef);
+            frame = contrastImg;
+        }
 
 
         // Display frame
@@ -120,6 +127,15 @@ int main()
         }
         else if (key == 'c' && (!isGrey && !isAltGrey)){
             isCartoon = !isCartoon;
+        }
+        else if (key == '+' && (!isGrey && !isAltGrey)){
+            contrastCoef = contrastCoef + 0.5;
+        }
+        else if (key == '-' && (!isGrey && !isAltGrey)){
+            contrastCoef = contrastCoef - 0.5;
+        }
+        if (contrastCoef != 1){
+            isContrast = true;
         }
     }
 

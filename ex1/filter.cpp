@@ -220,3 +220,22 @@ int cartoon( cv::Mat &src, cv::Mat&dst, int levels, int magThreshold ) {
   return 0;
 
 }
+
+// Contrast Changer
+int contrast( cv::Mat &src, cv::Mat &dst, double constant ) {
+
+  for(int i=0; i<src.rows; i++){
+      for(int j=0; j<src.cols; j++){
+
+          cv::Vec3b rgb = src.at<Vec3b>(i,j);
+          rgb[0] = clamp(rgb[0]*constant);
+          rgb[1] = clamp(rgb[1]*constant);
+          rgb[2] = clamp(rgb[2]*constant);
+          dst.at<Vec3b>(i,j) = rgb;
+
+      }
+  }
+
+  return 0;
+
+}
