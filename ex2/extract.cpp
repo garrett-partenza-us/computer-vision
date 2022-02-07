@@ -14,5 +14,6 @@ int baseline( cv::Mat &src, cv::Mat &dst ) {
     cv::split(pixels, channels);
     cv::hconcat(channels[0].reshape(9*9), channels[1].reshape(9*9), dst);
     cv::hconcat(dst, channels[2].reshape(9*9), dst);
+    dst = dst.reshape(1);
     return 0;
 }
