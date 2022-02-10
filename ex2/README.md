@@ -1,5 +1,26 @@
-#### To Do
-1. Custom Method 
-- Detecting grass in images. Write a Canny edge detection algorithm (maybe in python first) and state that images with more egdes are more likley to be grass.
-2. Extension
-- Detect circles in images using [Hough Transform](https://sbme-tutorials.github.io/2018/cv/notes/5_week5.html#algorithm).
+# Ex1
+
+#### Require Results
+
+Baseline Matching (required result 1) -- query1
+Histogram Matching (required result 2) -- query2
+Multi-histogram Matching (required result 3) -- query3
+Texture and Color (required result 4) -- query4
+Custom Method, Canny Edge Detector, Search 1 (required result 5) -- query5
+Custom Method, Canny Edge Detector, Search 2 (required result 5) -- query6
+
+#### Project Description
+
+This project aimed to provide a fundamental understanding of content based image retrieval through the implementation of color distribution histograms, texture kernels, and other custom methods combined with distance metric computing.
+
+#### Extension
+
+I believe that my custom method suffices for an extension method. Rather than using a different histogram distribution of texture kernel, I wrote a canny filter algorithm from scratch first in python and then translated into C++. I used the wikipedia page for Canny Algorithms as it provided a good walkthrough of the general algorithm. I augmented previous methods covered in class, such as Sobel filters and gradient magnitude, with edge direction, hysteresis, lower bounding, and double threshold. My goal was to detect grass in images (Custom Method Search 1) and it works really well. The C++ code can be found in extract.cpp in the canny function, while the python implementation can be found here. 
+
+#### Takeaways
+
+I learned two main things through implementing this project. The first is how simple some fundamental methods of CBIR can be. It is truly amazing how such simplistic methods of feature extraction on images can produce meaningful results for returning relevant images. Second, I learned and implemented the full algorithm of a Canny edge detector through my project extension. 
+
+#### External Resources
+
+The project was completed by myself individually. The main resource used for this project was the Wikipedia page on Canny edge detection, as it outlined the algorithm and relevant trig formulas for implementing in my custom search method.
