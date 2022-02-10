@@ -1,6 +1,6 @@
 # Ex1
 
-#### Require Results
+#### Required Results
 
 1. Baseline Matching (required result 1) -- query1
 2. Histogram Matching (required result 2) -- query2
