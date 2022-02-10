@@ -1,7 +1,7 @@
 # Ex1
 
 #### ReadMe Info
-(https://wiki.khoury.northeastern.edu/display/~gpartenza/Ex1)[Report]
+[Report](https://wiki.khoury.northeastern.edu/display/~gpartenza/Ex1)
 
 All code was compiled and executed on the Northeastern discovery cluster on a Linux operating system using opencv/3.4.3-contrib.
 ```
