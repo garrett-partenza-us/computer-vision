@@ -56,6 +56,15 @@ int main(int argc, char *argv[]) {
   else if (std::string(method)==std::string("histogram")){
     myfile.open("histogram.csv");
   }
+  else if (std::string(method)==std::string("multi")){
+    myfile.open("multi.csv");
+  }
+  else if (std::string(method)==std::string("texture")){
+    myfile.open("texture.csv");
+  }
+  else if (std::string(method)==std::string("canny")){
+    myfile.open("canny.csv");
+  }
 
   // loop over all the files in the image file listing
   while( (dp = readdir(dirp)) != NULL ) {
@@ -84,6 +93,41 @@ int main(int argc, char *argv[]) {
         histogram(img, features);
         cout << buffer << "\n";
         myfile << strcat(buffer, ",") << cv::format(features, cv::Formatter::FMT_CSV) << std::endl;
+      }
+      else if (std::string(method)==std::string("multi")){
+        Mat img = imread(buffer, IMREAD_COLOR);
+        Mat histogram_features(1, 64, CV_32FC1);
+        histogram(img, histogram_features);
+        Mat middle_features(1, 64, CV_32FC1);
+        middle(img, middle_features);
+        Mat features(1, 128, CV_32FC1);
+        hconcat(histogram_features, middle_features, features);
+        cout << buffer << "\n";
+        myfile << strcat(buffer, ",") << cv::format(features, cv::Formatter::FMT_CSV) << std::endl;
+      }
+      else if (std::string(method)==std::string("texture")){
+        Mat img = imread(buffer, IMREAD_COLOR);
+        Mat histogram_features(1, 64, CV_32FC1);
+        histogram(img, histogram_features);
+        Mat texture_features(1, 64, CV_32FC1);
+        texture(img, texture_features);
+        Mat features(1, 128, CV_32FC1);
+        hconcat(histogram_features, texture_features, features);
+        cout << buffer << "\n";
+        myfile << strcat(buffer, ",") << cv::format(features, cv::Formatter::FMT_CSV) << std::endl;
+      }
+      else if (std::string(method)==std::string("canny")){
+        Mat img = imread(buffer, IMREAD_COLOR);
+        float edge_intensity;
+        canny( img, edge_intensity );
+        Mat histogram_features(1, 64, CV_32FC1);
+        histogram(img, histogram_features);
+        Mat edge_intensity_mat(1, 1, CV_32FC1);
+        edge_intensity_mat.at<float>(0,0) = (float)edge_intensity;
+        Mat features(1, 65, CV_32FC1);
+        hconcat(edge_intensity_mat, histogram_features, features);
+        myfile << strcat(buffer, ",") << cv::format(features, cv::Formatter::FMT_CSV) << std::endl;
+        cout << buffer << "\n";
       }
     }
   }
