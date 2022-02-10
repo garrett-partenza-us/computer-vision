@@ -1,5 +1,10 @@
 # Ex1
 
+#### To run
+'''
+g++ process.cpp extract.cpp -o process -std=c++11 `pkg-config --cflags --libs opencv`; ./process database [baseline|histogram|multi|texture|canny]
+g++ search.cpp extract.cpp -o search -std=c++11 `pkg-config --cflags --libs opencv`; ./search [baseline|histogram|multi|texture|canny] [baseline.csv|histogram.csv|multi.csv|texture.csv|canny.csv] [target image] [N]
+'''
 #### Required Results
 
 1. Baseline Matching (required result 1) -- query1
