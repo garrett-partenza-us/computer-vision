@@ -1,6 +1,9 @@
 # Ex1
 
-#### To run
+#### ReadMe Info
+(https://wiki.khoury.northeastern.edu/display/~gpartenza/Ex1)[Report]
+
+All code was compiled and executed on the Northeastern discovery cluster on a Linux operating system using opencv/3.4.3-contrib.
 ```
 g++ process.cpp extract.cpp -o process -std=c++11 `pkg-config --cflags --libs opencv`; ./process database [baseline|histogram|multi|texture|canny]
 g++ search.cpp extract.cpp -o search -std=c++11 `pkg-config --cflags --libs opencv`; ./search [baseline|histogram|multi|texture|canny] [baseline.csv|histogram.csv|multi.csv|texture.csv|canny.csv] [target image] [N]
