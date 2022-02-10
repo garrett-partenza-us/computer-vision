@@ -1,3 +1,4 @@
+// includes
 #include <string>
 #include <vector>
 #include <sstream>
@@ -8,7 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-#include <algorithm> // for sort function
+#include <algorithm> 
 #include <dirent.h>
 #include <tgmath.h>
 #include <cstdlib>
@@ -17,7 +18,7 @@
 #include <opencv2/highgui.hpp>
 #include <map>
 
- 
+// namespaces
 using namespace std;
 using namespace cv;
 
@@ -246,7 +247,10 @@ int canny_search(vector<vector<string>> content, string image, int N){
 	}
 }
 
- 
+
+// main function to read csv file into vector and call
+// appropriate function to search distance metric for
+// top N images
 int main(int argc, char *argv[]) {
 	char filename[256];
     char image[256];

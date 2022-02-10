@@ -1,9 +1,4 @@
-/*
-  Bruce A. Maxwell
-  S21
-  
-  Sample code to identify image fils in a directory
-*/
+// includes
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -16,9 +11,11 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 
+// namespace
 using namespace cv;
 using namespace std;
 
+// main function to iterate over images and store features in csv file
 int main(int argc, char *argv[]) {
   char dirname[256];
   char buffer[256];
@@ -49,6 +46,7 @@ int main(int argc, char *argv[]) {
     exit(-1);
   }
 
+  // open csv file 
   fstream myfile;
   if (std::string(method)==std::string("baseline")){
     myfile.open("baseline.csv");
@@ -132,6 +130,7 @@ int main(int argc, char *argv[]) {
     }
   }
   
+  // close csv file
   myfile.close();
   printf("Terminating\n");
 

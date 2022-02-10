@@ -1,3 +1,4 @@
+// includes
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -5,7 +6,7 @@
 #include <fstream>  
 #include <dirent.h>
 #include <map>
-#include <math.h>       /* sqrt */
+#include <math.h>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
@@ -14,11 +15,14 @@
 #include <math.h>
 #include "opencv2/imgproc.hpp"
 
-#define PI 3.14159265
+// define PIE for canny algorithm
+#define PI 3.14
 
+// namespace 
 using namespace cv;
 using namespace std;
 
+// histogram intensity binning
 int bin( int pixel ){
     if (pixel<=63){
         return 0;
@@ -34,6 +38,7 @@ int bin( int pixel ){
     }
 }
 
+// baseline center nine pixels feature extractor
 int baseline( cv::Mat &src, cv::Mat &dst ) {
     cv::Mat pixels = src(cv::Range((src.rows/2)-4,(src.rows/2)+5), cv::Range((src.cols/2)-4,(src.cols/2)+5));
     cv::Mat channels[3];
@@ -44,6 +49,7 @@ int baseline( cv::Mat &src, cv::Mat &dst ) {
     return 0;
 }
 
+// histogram binning feature extractor
 int histogram( cv::Mat &src, cv::Mat &dst ) {
     // generate image feature vector using histogram method
     std::map<std::string, int> histogram;
@@ -75,6 +81,7 @@ int histogram( cv::Mat &src, cv::Mat &dst ) {
     return 0;
 }
 
+// histogram binning of center 64x64 feature extractor
 int middle( cv::Mat &src, cv::Mat &dst ) {
     // generate image feature vector using histogram method
     std::map<std::string, int> histogram;
@@ -107,6 +114,7 @@ int middle( cv::Mat &src, cv::Mat &dst ) {
     return 0;
 }
 
+// clamp a pixel value in range 0-255
 double clamp( double val ) {
     if (val < 0) {
       val = 0;
@@ -117,6 +125,7 @@ double clamp( double val ) {
     return val;
 }
 
+// sobel helper function
 cv::Vec3b sobel3x3helper( cv::Mat &kern, cv::Mat &pixels ) {
 
   cv::Mat channels[3];
@@ -138,7 +147,7 @@ cv::Vec3b sobel3x3helper( cv::Mat &kern, cv::Mat &pixels ) {
 
 }
 
-// XY Magnitude Filter
+// xy magnitude feature extractor
 int magnitude( cv::Mat &src, cv::Mat &dst ) {
 
   cv::Mat xkern = (cv::Mat_<char>(3, 3) << -1, 0, 1, -1, 0, 1, -1, 0, 1);
@@ -169,9 +178,9 @@ int magnitude( cv::Mat &src, cv::Mat &dst ) {
 
 }
 
+// texture feature extractor
 int texture( cv::Mat &src, cv::Mat &dst ) {
   
-    // generate image feature vector using histogram method
     std::map<std::string, int> histogram;
     for(int i=0;i<4;i++){
       for(int j=0;j<4;j++){
@@ -203,6 +212,7 @@ int texture( cv::Mat &src, cv::Mat &dst ) {
     return 0;
 }
 
+// theta binning for canny edge detection
 int thetabin ( float theta ){
   if (theta>0 and theta<22.5){
     return 0;
@@ -217,6 +227,8 @@ int thetabin ( float theta ){
     return 135;
   }    
 }
+
+// canny edge detection algorithm
 int canny( cv::Mat &src, float &edge_intensity){
   
   // pad, grey, and blur
