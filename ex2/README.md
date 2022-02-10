@@ -2,12 +2,12 @@
 
 #### Require Results
 
-Baseline Matching (required result 1) -- query1
-Histogram Matching (required result 2) -- query2
-Multi-histogram Matching (required result 3) -- query3
-Texture and Color (required result 4) -- query4
-Custom Method, Canny Edge Detector, Search 1 (required result 5) -- query5
-Custom Method, Canny Edge Detector, Search 2 (required result 5) -- query6
+1. Baseline Matching (required result 1) -- query1
+2. Histogram Matching (required result 2) -- query2
+3. Multi-histogram Matching (required result 3) -- query3
+4. Texture and Color (required result 4) -- query4
+5. Custom Method, Canny Edge Detector, Search 1 (required result 5) -- query5
+6. Custom Method, Canny Edge Detector, Search 2 (required result 5) -- query6
 
 #### Project Description
 
