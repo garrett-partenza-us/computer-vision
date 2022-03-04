@@ -3,6 +3,8 @@
 #include "opencv2/highgui.hpp"
 #include <iostream>
 #include <set>
+#include <string>
+
 
 using namespace cv;
 using namespace std;
@@ -22,13 +24,37 @@ int features( Mat &src, Mat &thresh, Mat &map, int label, Mat &dst){
     }
 
     Moments mom = moments(thresh, false);
-    Mat huMoments;
-    HuMoments(mom, huMoments);
-    cout << huMoments << endl;
+    HuMoments(mom, dst);
 
     return 0;
 }
 
+int objects( string &str_buffer, Mat &src_threshold, Mat &src, Mat &src_components, Mat &src_stats, Mat &src_centoid ){
+
+    // Declare cv::Mats
+    Mat src_gray, src_dialate, src_centoids;
+
+    // Read image
+    src = imread( str_buffer , IMREAD_COLOR );
+
+    // Convert to grayscale    
+    cvtColor( src, src_gray, COLOR_BGR2GRAY );
+
+    // PART ONE
+
+    // Threshold    
+    threshold( src_gray, src_threshold, 200, 255, THRESH_BINARY );
+
+    // PART TWO
+
+    // Morphological operator
+    erode(src_threshold, src_dialate, Mat(), Point(-1, -1), 3);
+
+    // PART THREE
+
+    connectedComponentsWithStats(src_threshold, src_components, src_stats, src_centoids, 4, CV_32S);
+
+}
 
 // DEAD CODE
 

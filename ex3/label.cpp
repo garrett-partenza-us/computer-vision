@@ -8,6 +8,10 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
+#include "functions.h"
+#include <string>
+
+
 
 // namespace
 using namespace cv;
@@ -44,6 +48,7 @@ int main(int argc, char *argv[]) {
     fruits.push_back("Strawberry");
     fruits.push_back("Watermelon");
 
+
     for (vector<string>::iterator fruit=fruits.begin(); fruit!=fruits.end(); ++fruit){
 
         cout << "FRUIT: " << fruit->c_str() << endl;
@@ -72,11 +77,32 @@ int main(int argc, char *argv[]) {
                 strcat(buffer_img, "/");
                 strcat(buffer_img, dp->d_name);
 
-                cout << buffer_img << endl;
+                Mat src, src_threshold, src_components, src_stats, src_centoids, src_features;
 
+                string str_buffer;
+                str_buffer += buffer_img;
+
+                cout << str_buffer << endl;
+
+                objects(str_buffer, src_threshold, src, src_components, src_stats, src_centoids);
+                
+                int label = 0;
+                features(src, src_threshold, src_components, label, src_features);
+                ofstream myfile("features.csv", std::ios::app);
+                for(int i=0; i<src_features.rows; i++){
+                    for(int j=0; j<src_features.cols; j++){
+                        double value = src_features.at<double>(i, j);
+                        myfile << value << ',';
+                    }
                 }
-        }
+                myfile << fruit->c_str() << ',';
+                myfile << '\n';
 
+                myfile.close();
+            }
+            
+        }
+    
     }
 
     printf("Terminating\n");
