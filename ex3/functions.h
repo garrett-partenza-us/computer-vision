@@ -7,4 +7,5 @@ using namespace cv;
 using namespace std;
 
 int objects( string &str_buffer, Mat &src_threshold, Mat &src, Mat &src_components, Mat &src_stats, Mat &src_centoid );
-int features( Mat &src, Mat &thresh, Mat &map, int label, Mat &dst );
+int features( Mat &src, Mat &thresh, Mat &map, int label, Mat &src_stats, vector<float> &dst );
+int custom_threshold( Mat &src_gray, Mat &src_threshold, int &thresh, int &mask );

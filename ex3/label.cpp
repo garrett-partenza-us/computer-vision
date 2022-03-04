@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
                 strcat(buffer_img, "/");
                 strcat(buffer_img, dp->d_name);
 
-                Mat src, src_threshold, src_components, src_stats, src_centoids, src_features;
+                Mat src, src_threshold, src_components, src_stats, src_centoids;
 
                 string str_buffer;
                 str_buffer += buffer_img;
@@ -87,13 +87,12 @@ int main(int argc, char *argv[]) {
                 objects(str_buffer, src_threshold, src, src_components, src_stats, src_centoids);
                 
                 int label = 0;
-                features(src, src_threshold, src_components, label, src_features);
+                vector<float> src_features;
+                features(src, src_threshold, src_components, label, src_stats, src_features);
                 ofstream myfile("features.csv", std::ios::app);
-                for(int i=0; i<src_features.rows; i++){
-                    for(int j=0; j<src_features.cols; j++){
-                        double value = src_features.at<double>(i, j);
-                        myfile << value << ',';
-                    }
+                for(int i=0; i<src_features.size(); i++){
+                    float value = src_features[i];
+                    myfile << value << ',';
                 }
                 myfile << fruit->c_str() << ',';
                 myfile << '\n';

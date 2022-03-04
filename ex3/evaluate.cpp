@@ -10,6 +10,7 @@
 #include <opencv2/highgui.hpp>
 #include "functions.h"
 #include <string>
+#include <map>
 
 
 
@@ -17,18 +18,26 @@
 using namespace cv;
 using namespace std;
 
+struct sort_pred {
+    bool operator()(const std::pair<float,int> &left, const std::pair<float,int> &right) {
+        return left.first < right.first;
+    }
+};
+
+
 // main function to iterate over images and store features in csv file
 int main(int argc, char *argv[]) {
     char dirname[256];
     char features_path[256];
     char buffer_dir[256];
     char buffer_img[256];
+    int K;
     FILE *fp;
     DIR *dirp;
     struct dirent *dp;
 
     // check for sufficient arguments
-    if( argc < 2) {
+    if( argc < 3) {
         printf("Not enough arguments\n");
         exit(-1);
     }
@@ -39,6 +48,8 @@ int main(int argc, char *argv[]) {
 
     strcpy(features_path, argv[2]);
     printf("Processing dataset %s\n", features );
+
+    K = stod(argv[3]);
 
     vector<vector<string>> content;
 	vector<string> row;
@@ -67,6 +78,30 @@ int main(int argc, char *argv[]) {
     fruits.push_back("Pear");
     fruits.push_back("Strawberry");
     fruits.push_back("Watermelon");
+
+    map<int, string> label2fruit = {{0, "Avocado",},
+                             {1, "Banana",},
+                             {2, "Blueberry",},
+                             {3, "Guava",},
+                             {4, "Kiwi",},
+                             {5, "Lemon",},
+                             {6, "Orange",},
+                             {7, "Pear",},
+                             {8, "Strawberry",},
+                             {9, "Watermelon",},
+                             };
+
+    map<string, int> fruit2label = {{"Avocado", 0,},
+                             {"Banana", 1,},
+                             {"Blueberry", 2,},
+                             {"Guava", 3,},
+                             {"Kiwi", 4,},
+                             {"Lemon", 5,},
+                             {"Orange", 6,},
+                             {"Pear", 7,},
+                             {"Strawberry", 8,},
+                             {"Watermelon", 9,},
+                             };
 
     float correct = 0;
     float total = 0;
@@ -100,7 +135,9 @@ int main(int argc, char *argv[]) {
                 strcat(buffer_img, "/");
                 strcat(buffer_img, dp->d_name);
 
-                Mat src, src_threshold, src_components, src_stats, src_centoids, src_features;
+                Mat src, src_threshold, src_components, src_stats, src_centoids;
+                vector<float> src_features;
+                vector<pair<float,int>> distances;
 
                 string str_buffer;
                 str_buffer += buffer_img;
@@ -110,23 +147,33 @@ int main(int argc, char *argv[]) {
                 objects(str_buffer, src_threshold, src, src_components, src_stats, src_centoids);
                 
                 int label = 0;
-                features(src, src_threshold, src_components, label, src_features);
+                features(src, src_threshold, src_components, label, src_stats, src_features);
 
-                double min = 100000;
                 string prediction;
                 for(int i=0;i<content.size();i++)
                 {
                     double ssd = 0;
-                    for(int j=1;j<content[i].size()-1;j++){
-                        ssd += pow( src_features.at<double>(j, 0) - stod(content[i][j].c_str()), 2);
+                    for(int j=0;j<content[i].size()-1;j++){
+                        ssd += pow( src_features[j] - stod(content[i][j].c_str()), 2 );
                     }
 
                     double euclidean_distance = sqrt(ssd);
-                    if (euclidean_distance < min){
-                        prediction = content[i][content[i].size()-1];
-                        min = euclidean_distance;
-                    }
+                    string label = content[i][content[i].size()-1].c_str();
+                    distances.push_back( make_pair(euclidean_distance, fruit2label[label]) );
                 }
+
+                sort(distances.begin(), distances.end(), sort_pred());
+
+                vector<pair<float, int>> predictions(distances.begin(), distances.begin() + K);
+
+
+                float sum_predictions = 0;
+                for(int i = 0; i < predictions.size(); i++)
+                {
+                    sum_predictions += predictions[i].second;
+                }
+
+                prediction = label2fruit[round( (int) ( sum_predictions+0.5f / K)  )];
 
                 if (prediction == fruit->c_str()){
                     correct+=1;
