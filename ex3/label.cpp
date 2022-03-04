@@ -84,11 +84,15 @@ int main(int argc, char *argv[]) {
 
                 cout << str_buffer << endl;
 
+                // detect objects
+
                 objects(str_buffer, src_threshold, src, src_components, src_stats, src_centoids);
                 
                 int label = 0;
                 vector<float> src_features;
+                //detect features
                 features(src, src_threshold, src_components, label, src_stats, src_features);
+                // write to file
                 ofstream myfile("features.csv", std::ios::app);
                 for(int i=0; i<src_features.size(); i++){
                     float value = src_features[i];

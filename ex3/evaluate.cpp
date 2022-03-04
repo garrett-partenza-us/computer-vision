@@ -18,6 +18,7 @@
 using namespace cv;
 using namespace std;
 
+//sorting operator for distance vector pairs
 struct sort_pred {
     bool operator()(const std::pair<float,int> &left, const std::pair<float,int> &right) {
         return left.first < right.first;
@@ -49,8 +50,10 @@ int main(int argc, char *argv[]) {
     strcpy(features_path, argv[2]);
     printf("Processing dataset %s\n", features );
 
+    //user inputed K
     K = stod(argv[3]);
 
+    //read feature vector file
     vector<vector<string>> content;
 	vector<string> row;
 	string line, word;
@@ -67,6 +70,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
+    //create maps for converting labels to ints
     vector<string> fruits;
     fruits.push_back("Avocado");
     fruits.push_back("Banana");
@@ -107,9 +111,8 @@ int main(int argc, char *argv[]) {
     float total = 0;
 
 
+    //iterate over fruits 
     for (vector<string>::iterator fruit=fruits.begin(); fruit!=fruits.end(); ++fruit){
-
-        cout << "FRUIT: " << fruit->c_str() << endl;
 
         strcpy(buffer_dir, dirname);
         strcat(buffer_dir, fruit->c_str());
@@ -142,13 +145,14 @@ int main(int argc, char *argv[]) {
                 string str_buffer;
                 str_buffer += buffer_img;
 
-                cout << str_buffer << endl;
-
+                //detect objects
                 objects(str_buffer, src_threshold, src, src_components, src_stats, src_centoids);
                 
                 int label = 0;
+                //get feature vector of target image
                 features(src, src_threshold, src_components, label, src_stats, src_features);
 
+                //make prediction
                 string prediction;
                 for(int i=0;i<content.size();i++)
                 {
@@ -173,14 +177,14 @@ int main(int argc, char *argv[]) {
                     sum_predictions += predictions[i].second;
                 }
 
-                prediction = label2fruit[round( (int) ( sum_predictions+0.5f / K)  )];
+                prediction = label2fruit[round( (int) ( sum_predictions / K)  )];
 
                 if (prediction == fruit->c_str()){
                     correct+=1;
                 }
                 total+=1;
 
-                cout << "Predicted: " << prediction << ", Actual: " << fruit->c_str() << endl;
+                cout << prediction << "," << fruit->c_str() << endl;
                 
             }
             

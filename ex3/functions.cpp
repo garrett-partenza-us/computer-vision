@@ -9,6 +9,7 @@
 using namespace cv;
 using namespace std;
 
+// custom threshold function written from scratch as opposed to using OpenCVs
 int custom_threshold( Mat &src_gray, Mat &src_threshold, int &thresh, int &mask ){
     src_threshold = src_gray.clone();
     for(int i=0; i<src_gray.rows; i++){
@@ -42,11 +43,13 @@ int features( Mat &src, Mat &thresh, Mat &map, int label, Mat &src_stats, vector
         }
     }
 
+    // Get humoments
     Mat huMoments, color_hist_features;
 
     Moments mom = moments(thresh, false);
     HuMoments(mom, huMoments);
 
+    //get color histogram
     vector<Mat> bgr_planes;
     split( masked, bgr_planes );
     int histSize = 10;
@@ -60,6 +63,7 @@ int features( Mat &src, Mat &thresh, Mat &map, int label, Mat &src_stats, vector
     vconcat(b_hist, g_hist, color_hist_features);
     vconcat(color_hist_features, r_hist, color_hist_features);
 
+    // concatenate feature vectors
     std::vector<float> features;
 
     for(int i=0; i<color_hist_features.rows; i++){
@@ -95,6 +99,7 @@ int objects( string &str_buffer, Mat &src_threshold, Mat &src, Mat &src_componen
     threshold( src_gray, src_threshold, 200, 255, THRESH_BINARY );
 
 
+    // UNCOMMENT TO RUN MY CUSTOM THRESHOLD FUNCTION
     // int thresh = 200;
     // int mask = 255;
     // custom_threshold( src_gray, src_threshold, thresh, mask );

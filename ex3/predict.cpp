@@ -34,12 +34,15 @@ int main(int argc, char *argv[]){
         exit(-1);
     }
 
+    //read user input
+
     strcpy(path_img, argv[1]);
     string path_img_str;
     path_img_str += path_img;
     strcpy(path_features, argv[2]);
     K = stod(argv[3]);
 
+    // read in training feature vectors
     vector<vector<string>> content;
 	vector<string> row;
 	string line, word;
@@ -56,6 +59,7 @@ int main(int argc, char *argv[]){
 		}
 	}
 
+    // maps for converting labels to integers and vice versa
     map<int, string> label2fruit = {{0, "Avocado",},
                              {1, "Banana",},
                              {2, "Blueberry",},
@@ -86,12 +90,15 @@ int main(int argc, char *argv[]){
 
     cout << path_img << endl;
 
+    // detect objects
     objects(path_img_str, src_threshold, src, src_components, src_stats, src_centoids);
     
     int label = 0;
+    // detect features
     features(src, src_threshold, src_components, label, src_stats, src_features);
 
     string prediction;
+    //make prediction
     for(int i=0;i<content.size();i++)
     {
         double ssd = 0;
@@ -104,11 +111,13 @@ int main(int argc, char *argv[]){
         distances.push_back( make_pair(euclidean_distance, fruit2label[label]) );
     }
 
+    //sort distances for top K
 
     sort(distances.begin(), distances.end(), sort_pred());
 
     vector<pair<float, int>> predictions(distances.begin(), distances.begin() + K);
 
+    // average neighbors
     float sum_predictions = 0;
     for(int i = 0; i < predictions.size(); i++)
     {
@@ -119,6 +128,7 @@ int main(int argc, char *argv[]){
 
     prediction = label2fruit[(int)( sum_predictions / K)];
 
+    // print predicted label
     cout << "Predicted: " << prediction << endl;
     
     
