@@ -1,3 +1,5 @@
+[Link to Wiki](https://wiki.khoury.northeastern.edu/display/~gpartenza/Ex3)
+
 Overview: This project was an introduction to object detection through a series of computer vision techniques learned in our Course. These techniques included thresholding, morphological operations, connected component labeling, feature extraction, and lazy clustering classifiers.
 
 Note 1: The goal of this project is a real-time system, but this was not feasible given my setup, so my system takes in a directory of images and process them instead. 
