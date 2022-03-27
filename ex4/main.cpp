@@ -36,8 +36,8 @@ int main(int argc, char *argv[]) {
 
     std::vector<cv::Point2f> corner_set;
     std::vector<cv::Vec3f> point_set;
-	std::vector<std::vector<cv::Vec3f> > point_list;
-	std::vector<std::vector<cv::Point2f> > corner_list;
+	std::vector<std::vector<cv::Vec3f>> point_list;
+	std::vector<std::vector<cv::Point2f>> corner_list;
 
     bool patternfound = findChessboardCorners(
         img, 
