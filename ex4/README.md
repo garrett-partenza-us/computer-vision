@@ -1,5 +1,3 @@
-### Links
-None
 ### Wiki URL
 ttps://wiki.khoury.northeastern.edu/display/~gpartenza/Ex4
 ### Operating System
